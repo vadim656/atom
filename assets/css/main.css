@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+    html, body {
+        font-family: 'Montserrat', sans-serif !important;
+        line-height: normal;
+        color: #343434;
+        letter-spacing: 0.03em;
+    }
+}
+.anime {
+  @apply motion-safe:transition duration-[0.15s] ease-in-out ;
+}
+
+
+
+
+
