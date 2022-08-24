@@ -1,11 +1,11 @@
 <template>
   <div
-    class="container grid grid-cols-12 gap-4 grid-rows-[auto,1fr,1fr,1fr,1fr] "
+    class="container grid grid-cols-12 gap-4 grid-rows-[auto,1fr,1fr,1fr,1fr] pt-4"
   >
     <the-sidebar class="col-span-2 row-span-6 border-2 bg-neutral-200" />
     <the-header class="col-span-10 row-span-1  " />
 
-    <div class="col-span-6">
+    <div class="col-span-10">
       <Nuxt />
     </div>
   </div>

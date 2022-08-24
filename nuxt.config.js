@@ -23,6 +23,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/ymapPlugin.js',  mode: 'client' },
+    "~plugins/eventBus.js"
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -47,13 +49,33 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/apollo'
   ],
-
+  env: {
+    strapiBaseUri: "http://localhost:1337"
+  },
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: "http://localhost:1337/graphql",
+      }
+    }
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/'
+    baseURL: 'http://localhost:1337/',
+    credentials: true,
+    common: {
+      'Cache-Control': 'max-age=0',
+      'Content-Encoding': 'gzip',
+      'Content-Type': 'application/json; charset=UTF-8',
+      Allow: 'GET, POST',
+      'Access-control-allow-methods': 'GET, POST',
+      'Access-Control-Allow-Headers': 'Authorization, Content-Type'
+      // 'Authorization': 'Basic Y2tfODVlNDRlODczNTI2MWQ0NWExOWQ4ZjdhYWYwMTJmOGQ2NDBjMmRhYzpjc180MjYxYmI2MzlmNGU5YTE4YzE0Njg1MTM2MWQ2MzE3ODA0YTgxNmZj'
+    },
+    // proxy: true
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

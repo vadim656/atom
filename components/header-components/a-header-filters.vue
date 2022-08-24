@@ -10,7 +10,7 @@
     </button>
     <button class="flex items-center gap-1 bg-white px-4 rounded-md text-xs">
         <img src="../../assets/img/icons/A_Icon_map_mini.svg" alt="">
-        <span class="pb-1">На карте</span>
+        <span class="">На карте</span>
     </button>
   </div>
 </template>
