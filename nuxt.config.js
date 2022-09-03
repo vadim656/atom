@@ -24,7 +24,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/ymapPlugin.js',  mode: 'client' },
-    "~plugins/eventBus.js"
+    "~plugins/eventBus.js",
+    '@/plugins/persistedstate.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -35,7 +36,19 @@ export default {
     // https://go.nuxtjs.dev/eslint
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxt/postcss8',
-    '@nuxtjs/google-fonts'
+    '@nuxtjs/google-fonts',
+    [
+      '@pinia/nuxt',
+      {
+        autoImports: [
+          // automatically imports `defineStore`
+          'defineStore', // import { defineStore } from 'pinia'
+          // automatically imports `defineStore` as `definePiniaStore`
+          ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
+        ],
+      },
+    ],
+    '@nuxtjs/composition-api/module'
   ],
   googleFonts: {
     display: 'swap',
@@ -50,21 +63,22 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/apollo'
+    '@nuxtjs/apollo',
+    
   ],
   env: {
-    strapiBaseUri: "http://localhost:1337"
+    strapiBaseUri: "http://admin.996661-cn43153.tmweb.ru:1337/"
   },
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: "http://localhost:1337/graphql",
+        httpEndpoint: "http://admin.996661-cn43153.tmweb.ru:1337/graphql",
       }
     }
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://localhost:1337/',
+    baseURL: 'http://admin.996661-cn43153.tmweb.ru:1337/',
     credentials: true,
     common: {
       'Cache-Control': 'max-age=0',

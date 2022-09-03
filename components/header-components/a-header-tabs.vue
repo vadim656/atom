@@ -1,42 +1,28 @@
 <template>
-  <div class="flex w-full justify-start gap-4 bg-neutral-200 p-4 rounded-md">
-    <div class="" v-for="(item, i) in mainNav" :key="i">
-      <div :class="item.active == true ? 'bg-white' : ''" class="px-4 py-2 rounded-md">
-        <NuxtLink :to="item.url" class="text-sm">
-          {{ item.title }}
-        </NuxtLink>
-      </div>
+  <div class="flex w-full justify-start gap-4 bg-neutral-200 py-6 px-4 rounded-md">
+    <div class="" v-for="(item, i) in categories.data" :key="i">
+      <NuxtLink
+        :to="'/cat/' + item.attributes.URL"
+        class="text-sm py-[10px] px-[12px] rounded-md"
+      >
+        {{ item.attributes.Name }}
+      </NuxtLink>
     </div>
   </div>
 </template>
 
 <script>
+import allCat from '../../apollo/queries/categories/all-cat.gql'
+
 export default {
-  data () {
-    return {
-      mainNav: [
-        {
-          url: '/',
-          title: 'Новые видеокарты',
-          active: true
-        },
-        {
-          url: '/',
-          title: 'Б/У видеокарты',
-          active: false
-        },
-        {
-          url: '/',
-          title: 'Ремонт',
-          active: false
-        },
-        {
-          url: '/',
-          title: 'Аренда оборудования',
-          active: false
-        }
-      ]
+  apollo: {
+    categories: {
+      query: allCat,
+      prefetch: true
     }
+  },
+  data () {
+    return {}
   }
 }
 </script>

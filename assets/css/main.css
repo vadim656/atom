@@ -16,6 +16,22 @@
 }
 
 
+.nuxt-link-exact-active {
+  background: white;
+}
+:focus { outline: none; }
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.1s;
+}
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+}
+
+
+
 
 
 

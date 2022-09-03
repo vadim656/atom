@@ -1,0 +1,29 @@
+query {
+  categories(
+    $URL: String!
+    filters: { URL: { eq: "majning-na-asic" } }
+    
+    ) {
+    data {
+      attributes {
+        Name
+        UID
+        URL
+        dealers {
+          data {
+            attributes {
+             CompanyName
+              CompanyDesc
+              Coordinates
+              StartTimeWork
+              EndTimeWork
+              VIP
+              UID
+            }
+            id
+          }
+        }
+      }
+    }
+  }
+}

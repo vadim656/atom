@@ -1,0 +1,17 @@
+query {
+	  dealers {
+          data {
+            attributes {
+              CompanyName
+              CompanyDesc
+              Coordinates
+              StartTimeWork
+              EndTimeWork
+              VIP
+              UID
+            }
+            id
+          }
+        }
+
+}

@@ -1,0 +1,29 @@
+query {
+	dealers(filters: { id: { eq: 16 }})  {
+    data{
+      attributes {
+        CompanyName
+        Arenda {
+          id
+          arenda_mosh {
+            data {
+              attributes {
+                Name
+              }
+            }
+          }
+          arenda_ohrana{
+            data {
+              attributes {
+                Value
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+
