@@ -1,31 +1,21 @@
 <template>
-  <div class="w-full justify-between flex items-center">
-    <div>
+  <div class="w-full justify-between grid grid-cols-6 grid-rows-2 gap-4 items-center">
+    <div class="flex gap-4 items-center justify-between col-span-6 row-span-1">
+      <div>
       <nuxt-link to="/">LOGO</nuxt-link>
     </div>
     <div @click="modal = true" class="cursor-pointer">
       Выберите город: <span class="font-semibold">{{ sity.sity }}</span>
     </div>
-
-    <div class="relative flex items-center">
-      <input
-        type="search"
-        name="search"
-        id="search"
-        placeholder="Поиск по сайту..."
-        class="shadow-sm border-[1px] block w-full pr-12 px-4 py-2 sm:text-sm border-gray-300 rounded-md"
-      />
-      <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
-        <kbd class="inline-flex items-center text-sm text-gray-400">
-          <img src="../../assets/img/icons/A-Icon-Search.svg" alt="" />
-        </kbd>
-      </div>
     </div>
+    
 
-    <div class="flex gap-2 items-center text-base">
+    
+
+    <!-- <div class="flex gap-2 items-center justify-end text-base col-span-2 sm:col-span-4">
       МЕНЮ
       <img src="../../assets/img/icons/menu-desc.svg" alt="" />
-    </div>
+    </div> -->
     <div
       v-if="modal == true"
       @click="modal = false"
@@ -57,6 +47,27 @@
 import { useSity } from '@/store'
 import { mapState  } from 'pinia'
 import { ref } from '@nuxtjs/composition-api'
+import gql from 'graphql-tag'
+
+const SEARCH = gql`
+  query($NAME: String) {
+  dealers(filters: { models: { Name: { containsi: $NAME } } }) {
+    data {
+      attributes {
+        CompanyName
+        CompanyDesc
+        models {
+          data {
+            attributes {
+              Name
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`
 
 export default {
   props: {
@@ -67,7 +78,8 @@ export default {
   data () {
     return {
       selectedSity: 'Москва',
-      modal: false
+      modal: false,
+      search: ''
     }
   },
   setup() {
@@ -75,7 +87,6 @@ export default {
     return { sity }
   },
   methods: {
-
   }
 }
 </script>

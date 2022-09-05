@@ -1,7 +1,21 @@
 <template>
   <div class="grid grid-cols-12 gap-4 ">
     <div
-      class="col-span-7 grid grid-cols-3 gap-4 max-h-[90px] "
+      @click="ymapMob = !ymapMob"
+      class="col-span-12 flex justify-center items-center sm:hidden px-4 py-4 font-semibold  rounded-md bg-neutral-200"
+    >
+      <span v-if="ymapMob == false">Показать на карте</span>
+      <span v-else>Скрыть карту</span>
+    </div>
+    <div v-if="ymapMob == true" class="w-full col-span-12">
+      <a-y-map
+        v-if="dealers !== undefined && dealers.data.length"
+        :ymap_data="dealers.data"
+      />
+      <span v-else>Категория пуста</span>
+    </div>
+    <div
+      class="col-span-12 sm:col-span-7 grid grid-cols-1 sm:grid-cols-3  gap-4   sm:overflow-y-auto sm:h-[600px]"
       v-if="dealers !== undefined"
     >
       <a-dealer
@@ -9,12 +23,16 @@
         :key="dealer.id"
         :dealer_data="dealer.attributes"
         :company_url="dealer.id"
+        class="max-h-[130px]"
       />
     </div>
-    <div class="col-span-5 flex relative">
+    <div class="col-span-5 hidden sm:flex relative ">
       <div class="absolute top-0 w-full right-0 left-0  h-[400px]">
-        
-        <a-y-map v-if="dealers !== undefined && dealers.data.length" :ymap_data="dealers.data" />
+        <a-y-map
+          v-if="dealers !== undefined && dealers.data.length"
+          :key="mapYandex"
+          :ymap_data="dealers.data"
+        />
         <span v-else>Категория пуста</span>
       </div>
     </div>
@@ -31,6 +49,8 @@ const SINGLE_CAT = gql`
   query SINGLE_CAT($UID: String, $ID: ID) {
     dealers(
       filters: { sity: { id: { eq: $ID } }, categories: { UID: { eq: $UID } } }
+      sort: "VIP:desc"
+      pagination: { limit: 100}
     ) {
       data {
         attributes {
@@ -80,26 +100,21 @@ export default {
     const sity = useSity()
     return { sity }
   },
+  data () {
+    return {
+      ymapMob: false,
+      mapYandex: 0
+    }
+  },
   components: { aYMap, ADealer },
   name: 'IndexPage',
   layout: 'main',
-  // async asyncData ({ app, params }) {
-  //   const client = app.apolloProvider.defaultClient
-  //   // устанавливаем для фильтра значение URL
-  //   const URL = params.cat
-
-  //   const res = await client.query({
-  //     query: SINGLE_CAT,
-  //     variables: {
-  //       URL: URL
-  //     }
-  //   })
-
-  //   const { dealers } = res.data
-
-  //   return { dealers }
-  // },
-  methods: {}
+  methods: {},
+   watch: {
+    'sity.getSityId' () {
+      this.mapYandex += 1;  
+    }
+  },
 }
 </script>
 <style>

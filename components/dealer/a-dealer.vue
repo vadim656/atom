@@ -1,12 +1,15 @@
 <template>
   <div 
-  class="flex flex-col justify-center gap-2  p-2 rounded-md" 
+  class="flex flex-col justify-between gap-2  p-2 rounded-md" 
   :class="[dealer_data.VIP == true ? 'bg-[#FFDFB8]' : 'bg-[#E0E0E0]']"
   > 
       
       <div class="flex justify-between items-start">
           <h3 class="font-bold text-sm truncate cursor-pointer" :title="dealer_data.CompanyName">{{ dealer_data.CompanyName }} </h3>
-          <span class="text-xs"> с {{ dealer_data.StartTimeWork }} до {{ dealer_data.EndTimeWork }} </span>
+          <div class="text-xs flex flex-col items-end">
+            <span>с {{ dealer_data.StartTimeWork }}</span>
+            <span>до {{ dealer_data.EndTimeWork }}</span>
+          </div>
       </div>
       <span class="text-xs line-clamp-2">{{ dealer_data.CompanyDesc }} </span>
       <div class="flex justify-between items-end">

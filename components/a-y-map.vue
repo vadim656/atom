@@ -95,7 +95,7 @@ export default {
       <span>Открыто: c ${marker.attr.StartTimeWork} до ${marker.attr.EndTimeWork} </span>
       <span>Телефон:  ${marker.attr.Phone}  </span>
        <span>${marker.attr.CompanyDesc}  </span>
-       <a class="underline" href="/company/${marker.id}"> Подробнее</a>
+       <a class="underline" href="/company/${marker.id}"> Подробнее - ${marker.id}</a>
       </div>`
       }
      
@@ -106,7 +106,7 @@ export default {
         coords: item.attributes.Coordinates.split(','),
         text: item.attributes.CompanyName,
         attr: item.attributes,
-        id: i + 1,
+        id: item.id,
         vip: item.attributes.VIP
       }))
     },

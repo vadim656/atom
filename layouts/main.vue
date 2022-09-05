@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container grid grid-cols-12 gap-4 grid-rows-[auto,1fr,1fr,1fr,1fr] relative"
+    class="container grid grid-cols-12 gap-4 grid-rows-[auto,1fr,1fr,1fr,1fr] relative px-4 sm:px-0"
   >
     <!-- <the-sidebar class="col-span-2 row-span-6 border-2 bg-neutral-200  " /> -->
     <the-header
@@ -10,7 +10,7 @@
       :filter_accessories="accessories"
     />
 
-    <div class="col-span-12">
+    <div class="col-span-12 relative">
       <Nuxt />
     </div>
   </div>

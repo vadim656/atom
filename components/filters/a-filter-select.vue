@@ -2,7 +2,7 @@
   <div class="relative">
     <button
       @click="active = !active"
-      class="flex items-center gap-3 bg-white rounded-md pl-4 pr-2 py-2 text-xs"
+      class="flex items-center gap-3 bg-white rounded-md pl-4 pr-2 h-9 text-xs"
     >
       <span class="">{{ title }}</span>
       <img v-if="active == false" src="../../assets/img/icons/A-Icon-Menu.svg" alt="" />
@@ -16,7 +16,7 @@
           :key="i"
           class=" py-1 cursor-pointer flex gap-1"
         >
-          <input type="checkbox" />
+          <input type="checkbox" :value="item.attributes.Name" v-model="cheked"/>
           <label class="text-xs">{{ item.attributes.Name }}</label>
         </div>
       </div>
@@ -37,7 +37,8 @@ export default {
   data () {
     return {
       selected: 'F',
-      active: false
+      active: false,
+      cheked: []
     }
   }
 }
