@@ -19,7 +19,7 @@
     </div>
     <!-- <div v-else> Ничего нет</div> -->
     <div class="col-span-5 flex relative ">
-      <div class="absolute top-0 w-full right-0 left-0  h-[400px]">
+      <div class="absolute top-0 w-full right-0 left-0  h-[600px]">
         <a-y-map
           v-if="dealers !== undefined"
           :ymap_data="dealers.data"

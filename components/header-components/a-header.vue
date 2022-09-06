@@ -1,8 +1,8 @@
 <template>
-  <div class="w-full justify-between grid grid-cols-6 grid-rows-2 gap-4 items-center">
-    <div class="flex gap-4 items-center justify-between col-span-6 row-span-1">
+  <div class="w-full justify-between grid grid-cols-6  gap-4 items-center">
+    <div class="flex gap-4 items-center justify-between col-span-6 ">
       <div>
-      <nuxt-link to="/">LOGO</nuxt-link>
+      <nuxt-link class="font-bold text-2xl" to="/">EXAMINE</nuxt-link>
     </div>
     <div @click="modal = true" class="cursor-pointer">
       Выберите город: <span class="font-semibold">{{ sity.sity }}</span>

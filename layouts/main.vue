@@ -1,10 +1,10 @@
 <template>
   <div
-    class="container grid grid-cols-12 gap-4 grid-rows-[auto,1fr,1fr,1fr,1fr] relative px-4 sm:px-0"
+    class="container grid grid-cols-12 gap-4 grid-rows-[auto] relative px-4 sm:px-0"
   >
     <!-- <the-sidebar class="col-span-2 row-span-6 border-2 bg-neutral-200  " /> -->
     <the-header
-      class="bg-white col-span-12 row-span-1  sticky top-0 pt-4 z-[9999999999999]"
+      class="bg-white col-span-12   sticky top-0 pt-4 z-[9999999999999]"
       :sities="sities"
       :filter_mesto="razmechenieMestos"
       :filter_accessories="accessories"
@@ -13,6 +13,7 @@
     <div class="col-span-12 relative">
       <Nuxt />
     </div>
+    <the-footer class="col-span-12"/>
   </div>
 </template>
 
@@ -20,6 +21,7 @@
 import TheHeader from '../components/UI/TheHeader.vue'
 import TheSidebar from '../components/UI/TheSidebar.vue'
 import gql from 'graphql-tag'
+import TheFooter from '../components/UI/TheFooter.vue'
 
 const SET_SITY = gql`
   query SET_SITY {
@@ -60,7 +62,7 @@ const ACCES_FILTERS = gql`
 `
 
 export default {
-  components: { TheHeader, TheSidebar },
+  components: { TheHeader, TheSidebar, TheFooter },
   apollo: {
     sities: {
       query: SET_SITY,
