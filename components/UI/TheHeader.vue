@@ -1,8 +1,7 @@
 <template>
   <div class="w-full flex flex-col gap-4 h-full items-center justify-center">
     <a-header :sities="sities" />
-    <a-header-tabs />
-    <!-- <a-header-filters :filter_mesto="filter_mesto" :filter_accessories="filter_accessories"/> -->
+    
   </div>
 </template>
 

@@ -1,10 +1,10 @@
 <template>
   <div
-    class="container grid grid-cols-12 gap-4 grid-rows-[auto] relative px-4 sm:px-0"
+    class="container grid grid-cols-12 gap-12 grid-rows-[auto] relative px-4 sm:px-0"
   >
     <!-- <the-sidebar class="col-span-2 row-span-6 border-2 bg-neutral-200  " /> -->
     <the-header
-      class="bg-white col-span-12   sticky top-0 pt-4 z-[9999999999999]"
+      class="col-span-12    pt-4 "
       :sities="sities"
       :filter_mesto="razmechenieMestos"
       :filter_accessories="accessories"

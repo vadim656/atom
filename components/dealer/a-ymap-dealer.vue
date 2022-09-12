@@ -2,7 +2,7 @@
   <div>
     <yandex-map
       :coords="coords"
-      class="h-[400px]"
+      class="h-[900px] rounded-[70px] overflow-hidden"
       zoom="14"
       v-if="mapDone == true"
     >
@@ -35,14 +35,14 @@ export default {
       mapDone: false,
       markerIcon: {
         layout: 'default#imageWithContent',
-        imageHref: '/icons/map-orange.png',
-        imageSize: [19, 25],
+        imageHref: '/icons/map-default.png',
+        imageSize: [23, 26],
         imageOffset: [0, 0],
         content: '',
         contentOffset: [10, -25],
         contentLayout:
-          '<div style="width: 100%; padding: 6px; color: #212121; font-weight: bold;">$[properties.iconContent]</div>'
-      }
+          '<div style="width: 100%;  color: #212121; font-weight: bold;">$[properties.iconContent]</div>'
+      },
     }
   },
   methods: {

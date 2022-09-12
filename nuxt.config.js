@@ -3,7 +3,7 @@ export default {
   head: {
     title: 'app',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ru'
     },
     meta: [
       { charset: 'utf-8' },
@@ -11,20 +11,16 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    '@/assets/css/main.css',
-  ],
+  css: ['@/assets/css/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/ymapPlugin.js',  mode: 'client' },
-    "~plugins/eventBus.js",
+    { src: '~/plugins/ymapPlugin.js', mode: 'client' },
+    '~plugins/eventBus.js',
     '@/plugins/persistedstate.js'
   ],
 
@@ -44,18 +40,19 @@ export default {
           // automatically imports `defineStore`
           'defineStore', // import { defineStore } from 'pinia'
           // automatically imports `defineStore` as `definePiniaStore`
-          ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
-        ],
-      },
+          ['defineStore', 'definePiniaStore'] // import { defineStore as definePiniaStore } from 'pinia'
+        ]
+      }
     ],
     '@nuxtjs/composition-api/module'
   ],
   googleFonts: {
     display: 'swap',
+    download: true,
     preconnect: true,
     families: {
-      Montserrat: {
-        wght: [ 600, 400, 700]
+      Roboto: {
+        wght: [600, 400, 700]
       }
     }
   },
@@ -63,16 +60,15 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/apollo',
-    
+    '@nuxtjs/apollo'
   ],
   env: {
-    strapiBaseUri: "http://admin.996661-cn43153.tmweb.ru:1337/"
+    strapiBaseUri: 'http://admin.996661-cn43153.tmweb.ru:1337/'
   },
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: "http://admin.996661-cn43153.tmweb.ru:1337/graphql",
+        httpEndpoint: 'http://admin.996661-cn43153.tmweb.ru:1337/graphql'
       }
     }
   },
@@ -88,17 +84,17 @@ export default {
       'Access-control-allow-methods': 'GET, POST',
       'Access-Control-Allow-Headers': 'Authorization, Content-Type'
       // 'Authorization': 'Basic Y2tfODVlNDRlODczNTI2MWQ0NWExOWQ4ZjdhYWYwMTJmOGQ2NDBjMmRhYzpjc180MjYxYmI2MzlmNGU5YTE4YzE0Njg1MTM2MWQ2MzE3ODA0YTgxNmZj'
-    },
+    }
     // proxy: true
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-   build: {
+  build: {
     postcss: {
       plugins: {
         tailwindcss: {},
-        autoprefixer: {},
-      },
-    },
+        autoprefixer: {}
+      }
+    }
   }
 }

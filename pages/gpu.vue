@@ -1,0 +1,65 @@
+<template>
+  <div class="flex flex-col gap-8 pb-60">
+    <nuxt-link to='/' class="flex items-center gap-4">
+      <img
+        src="~/assets/img/icons/mainBTN.svg"
+        alt=""
+        class="rounded-xl overflow-hidden rotate-180"
+      />
+      <div class="flex flex-col gap-1 items-start">
+        <span class="font-bold text-sm uppercase">Майнинг</span>
+        <h2 class="text-[#7854F7] text-5xl font-bold">GPU</h2>
+      </div>
+    </nuxt-link>
+
+    <div v-if="category !== undefined" class="grid grid-cols-5 gap-10">
+      <nuxt-link
+        v-for="(item, i) in category.data.attributes.sub_categories.data"
+        :key="i"
+        class="border-[1px] rounded-xl bg-white anime min-h-[100px] max-h-[185px] hover:shadow-md flex flex-col p-4 justify-center items-center"
+        :to="{ path: `/cat/` + item.attributes.URL, query: { id: item.id } }"
+      >
+        <img src="" alt="" />
+        <h3 class="font-semibold text-sm">{{ item.attributes.Name }}</h3>
+      </nuxt-link>
+    </div>
+  </div>
+</template>
+
+<script>
+import gql from 'graphql-tag'
+
+const CATEGORY_NAME = gql`
+  query CATEGORY_NAME {
+    category(id: 2) {
+      data {
+        attributes {
+          Name
+          sub_categories {
+            data {
+              attributes {
+                Name
+                URL
+              }
+              id
+            }
+          }
+        }
+        id
+      }
+    }
+  }
+`
+
+export default {
+  layout: 'main',
+  apollo: {
+    category: {
+      query: CATEGORY_NAME,
+      prefetch: true
+    }
+  }
+}
+</script>
+
+<style></style>

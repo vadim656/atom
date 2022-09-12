@@ -2,15 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Gilroy";
+  src: url("@/assets/fonts/gilroy-regular.woff2") format("woff2"),
+        url("@/assets/fonts/gilroy-regular.woff") format("woff");
+        font-weight: normal;       
+ }
+
+ @font-face {
+  font-family: "Gilroy";
+  src: url("@/assets/fonts/gilroy-bold.woff2") format("woff2"),
+        url("@/assets/fonts/gilroy-bold.woff") format("woff");
+  font-weight: bold;      
+ }
+
 
 @layer base {
     html, body {
-        font-family: 'Montserrat', sans-serif !important;
+        font-family: 'Gilroy', sans-serif !important;
         line-height: normal;
         color: #343434;
         letter-spacing: 0.03em;
+        background: linear-gradient(180deg, rgba(229, 239, 255, 0.75) 0%, rgba(229, 239, 255, 0.196995) 83.7%, rgba(229, 239, 255, 0) 100%);
     }
 }
+
+
+
+
+
 .anime {
   @apply motion-safe:transition duration-[0.15s] ease-in-out ;
 }
@@ -29,6 +49,27 @@
 .page-enter,
 .page-leave-to {
   opacity: 0;
+}
+
+.gradient {
+  background: linear-gradient(148.26deg, #CBBE49 -7.5%, #EBB93A 80.89%), #FFFFFF;
+}
+
+
+[class*="ymaps-2"][class*="-ground-pane"] {
+  -webkit-filter: grayscale(100%);
+
+}
+
+[class*="-balloon_layout_normal"] {
+  border-radius: 12px ;
+  overflow: hidden;
+
+}
+
+
+.shadow {
+  box-shadow: 0px 18px 12px rgba(215, 228, 249, 0.5);
 }
 
 

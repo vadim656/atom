@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-white shadow-md rounded-md p-4">
+  <div class="bg-white shadow-md rounded-xl p-4">
     <div class="flex flex-col gap-2">
       <h4 class="font-semibold">{{ title }}</h4>
       <ul class="flex flex-col gap-1 list-disc list-inside">
-        <li v-for="(item, i) in data_service.data" :key="i">
+        <li v-for="(item, i) in data_service.data" :key="i" class="text-sm">
           {{ item.attributes.Name }}
         </li>
       </ul>

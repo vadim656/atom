@@ -1,49 +1,93 @@
 <template>
-  <div class="grid grid-cols-12 gap-4 ">
-    <a-header-filters
-      :filter_accessories="accessories"
-      @getFilterMan="getFilterMan"
-      class="col-span-12"
-    />
-    <div
-      class="col-span-7 grid grid-cols-3 gap-4  sm:overflow-y-auto sm:h-[600px]"
-      v-if="dealers !== undefined"
-    >
-      <a-dealer
-        v-for="dealer in dealers.data"
-        :key="dealer.id"
-        :dealer_data="dealer.attributes"
-        :company_url="dealer.id"
-        class="max-h-[130px]"
-      />
+  <div class="flex flex-col gap-8">
+    <div class="grid grid-cols-2 gap-4 w-full">
+      <div class="col-span-2 sm:col-span-1 flex flex-col justify-center gap-8">
+        <h1 class="text-5xl font-bold">
+          Продажа, ремонт, размещение <br />
+          и настройка оборудования
+        </h1>
+        <div class="grid grid-cols-2 gap-6">
+          <div
+            class="flex flex-col gap-3 p-3 border-2 rounded-xl border-[#242424]/5"
+          >
+            <img
+              src="~/assets/img/Rectangle4.jpg"
+              alt=""
+              class="rounded-xl overflow-hidden"
+            />
+            <div class="flex items-center justify-between ">
+              <div class="flex flex-col gap-3 items-start">
+                <span class="font-bold text-sm uppercase">Майнинг</span>
+                <h2 class="text-[#7854F7] text-5xl font-bold">ASIC</h2>
+              </div>
+
+              <nuxt-link to="/asic" class="rounded-full overflow-hidden">
+                <img src="~/assets/img/icons/mainBTN.svg" alt="" />
+              </nuxt-link>
+            </div>
+          </div>
+          <div
+            class="flex flex-col gap-3 p-3 border-2 rounded-xl border-[#242424]/5"
+          >
+            <img
+              src="~/assets/img/Rectangle5.jpg"
+              alt=""
+              class="rounded-xl overflow-hidden"
+            />
+            <div class="flex items-center justify-between ">
+              <div class="flex flex-col gap-3 items-start">
+                <span class="font-bold text-sm uppercase">Майнинг</span>
+                <h2 class="text-[#7854F7] text-5xl font-bold">GPU</h2>
+              </div>
+
+              <nuxt-link to="/gpu" class="rounded-full overflow-hidden">
+                <img src="~/assets/img/icons/mainBTN.svg" alt="" />
+              </nuxt-link>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-2 sm:col-span-1 flex relative ">
+        <div class=" top-0 w-full right-0 left-0  h-[648px]">
+          <a-y-map
+            v-if="dealers !== undefined"
+            :ymap_data="dealers.data"
+            :key="mapYandex"
+            class="rounded-[70px] overflow-hidden bg-[#FFFFFF]/25 p-3 border-[1px] border-[#242424]/5 shadow"
+          />
+        </div>
+      </div>
     </div>
-    <!-- <div v-else> Ничего нет</div> -->
-    <div class="col-span-5 flex relative ">
-      <div class="absolute top-0 w-full right-0 left-0  h-[600px]">
-        <a-y-map
-          v-if="dealers !== undefined"
-          :ymap_data="dealers.data"
-          :key="mapYandex"
+    <div>
+      <div
+        class="grid grid-cols-6  gap-2  sm:overflow-y-auto"
+        v-if="dealers !== undefined"
+      >
+        <a-dealer
+          v-for="dealer in dealers.data"
+          :key="dealer.id"
+          :dealer_data="dealer.attributes"
+          :company_url="dealer.id"
+          class="max-h-[130px]"
         />
       </div>
     </div>
-    <!-- {{ sities.data[0].attributes.dealers.data}} -->
+    <div></div>
   </div>
 </template>
 
 <script>
-import aYMap from '../components/a-y-map.vue'
-import ADealer from '../components/dealer/a-dealer.vue'
-import gql from 'graphql-tag'
+import aYMap from '~/components/a-y-map.vue'
+import ADealer from '~/components/dealer/a-dealer.vue'
 import { useSity } from '@/store'
-import AHeaderFilters from '../components/header-components/a-header-filters.vue'
+import gql from 'graphql-tag'
 
-const ALL_DEALERS_SITY = gql`
-  query ALL_DEALERS_SITY($ID: ID) {
+const SINGLE_CAT = gql`
+  query SINGLE_CAT($ID: ID) {
     dealers(
       filters: { sity: { id: { eq: $ID } } }
       sort: "VIP:desc"
-      pagination: { limit: 100 }
+      pagination: { limit: 12 }
     ) {
       data {
         attributes {
@@ -55,6 +99,13 @@ const ALL_DEALERS_SITY = gql`
           VIP
           UID
           Phone
+          Logo {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
           categories {
             data {
               attributes {
@@ -63,99 +114,6 @@ const ALL_DEALERS_SITY = gql`
             }
           }
           sity {
-            data {
-              attributes {
-                Name
-              }
-            }
-          }
-          razmechenie_mestos {
-            data {
-              attributes {
-                Name
-              }
-            }
-          }
-          manufacturers {
-            data {
-              attributes {
-                Name
-              }
-            }
-          }
-        }
-        id
-      }
-    }
-  }
-`
-
-const MESTO_FILTERS = gql`
-  query MESTO_FILTERS {
-    razmechenieMestos {
-      data {
-        attributes {
-          Name
-          Active
-        }
-      }
-    }
-  }
-`
-
-const ACCES_FILTERS = gql`
-  query ACCES_FILTERS {
-    accessories {
-      data {
-        attributes {
-          Name
-          Active
-        }
-      }
-    }
-  }
-`
-const ALL_DEALERS_SITY_FILTER = gql`
-  query ALL_DEALERS_SITY_FILTER($ID: ID, $NAMEMAN: String) {
-    dealers(
-      filters: { sity: { id: { eq: $ID } } }
-      sort: "VIP:desc"
-      manufacturers: { Name: { in: [$NAMEMAN] } }
-
-      pagination: { limit: 50 }
-    ) {
-      data {
-        attributes {
-          CompanyName
-          CompanyDesc
-          Coordinates
-          StartTimeWork
-          EndTimeWork
-          VIP
-          UID
-          Phone
-          categories {
-            data {
-              attributes {
-                Name
-              }
-            }
-          }
-          sity {
-            data {
-              attributes {
-                Name
-              }
-            }
-          }
-          razmechenie_mestos {
-            data {
-              attributes {
-                Name
-              }
-            }
-          }
-          manufacturers {
             data {
               attributes {
                 Name
@@ -170,78 +128,34 @@ const ALL_DEALERS_SITY_FILTER = gql`
 `
 
 export default {
-  components: { aYMap, ADealer, AHeaderFilters },
   layout: 'main',
+  components: { aYMap, ADealer },
   apollo: {
     dealers: {
-      query: ALL_DEALERS_SITY,
+      query: SINGLE_CAT,
       prefetch: true,
       variables () {
         return {
           ID: this.sity.getSityId
         }
       }
-    },
-    razmechenieMestos: {
-      query: MESTO_FILTERS,
-      prefetch: false
-    },
-    accessories: {
-      query: ACCES_FILTERS,
-      prefetch: false
-    }
-  },
-  data () {
-    return {
-      mapYandex: 0,
-      flterNesto: [],
-      filterManufac: [],
-      testResults: [],
-      dddssss: []
     }
   },
   setup () {
     const sity = useSity()
     return { sity }
   },
+  data () {
+    return {
+      mapYandex: 0
+    }
+  },
   watch: {
     'sity.getSityId' () {
       this.mapYandex += 1
     }
-  },
-  methods: {
-    async FilterDealers (data) {
-      const searchInput = data
-      console.log(data)
-      try {
-        const res = await this.$apollo.query({
-          query: ALL_DEALERS_SITY_FILTER,
-          variables: {
-            $ID: this.sity.getSityId,
-            $NAMEMAN: searchInput
-          }
-        })
-
-        if (res) {
-          this.loading = false
-          const { results } = res.data
-          this.testResults = results
-        }
-      } catch (err) {
-        this.loading = false
-        this.testResults = []
-      }
-    },
-    getFilterMan (data) {
-      const doneTest = []
-      for (const value of data.values()) {
-       doneTest.push(value)
-      }
-
-      const joindealres = doneTest.join('","').toString().replaceAll('\n' , '')
-      this.FilterDealers(joindealres)
-    }
-  },
-  computed: {}
+  }
 }
 </script>
+
+<style></style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-12 gap-4 ">
+  <div class="grid grid-cols-12 grid-rows-[auto,auto-auto] gap-4 ">
     <div
       @click="ymapMob = !ymapMob"
       class="col-span-12 flex justify-center items-center sm:hidden px-4 py-4 font-semibold  rounded-md bg-neutral-200"
@@ -14,27 +14,37 @@
       />
       <span v-else>Категория пуста</span>
     </div>
+    <div class="col-span-6 row-span-1">
+      <a-header-filters
+        :filter_accessories="accessories"
+        :filtersList="filtersList"
+        @getFilterMan="getFilterMan"
+        @getFilterName="getFilterName"
+      />
+    </div>
+
+    <div class="col-span-6 row-span-3 flex relative ">
+      <div class="absolute top-0 w-full right-0 left-0  h-[600px]">
+        <a-y-map
+          v-if="dealers !== undefined"
+          :ymap_data="sortedDealersApi"
+          :key="mapYandex"
+          class="rounded-[70px] overflow-hidden bg-[#FFFFFF]/25 p-3 border-[1px] border-[#242424]/5 shadow"
+        />
+      </div>
+    </div>
     <div
-      class="col-span-12 sm:col-span-7 grid grid-cols-1 sm:grid-cols-3  gap-4   sm:overflow-y-auto sm:h-[600px]"
+      class="col-span-6 row-span-2 grid grid-cols-3 gap-2   sm:h-[600px]"
+      :class="[dealers.data.length <= 12 ? '' : 'sm:overflow-y-auto']"
       v-if="dealers !== undefined"
     >
       <a-dealer
-        v-for="dealer in dealers.data"
+        v-for="dealer in sortedDealersApi"
         :key="dealer.id"
         :dealer_data="dealer.attributes"
         :company_url="dealer.id"
         class="max-h-[130px]"
       />
-    </div>
-    <div class="col-span-5 hidden sm:flex relative ">
-      <div class="absolute top-0 w-full right-0 left-0  h-[400px]">
-        <a-y-map
-          v-if="dealers !== undefined && dealers.data.length"
-          :key="mapYandex"
-          :ymap_data="dealers.data"
-        />
-        <span v-else>Категория пуста</span>
-      </div>
     </div>
   </div>
 </template>
@@ -44,13 +54,17 @@ import aYMap from '~/components/a-y-map.vue'
 import ADealer from '~/components/dealer/a-dealer.vue'
 import gql from 'graphql-tag'
 import { useSity } from '@/store'
+import AHeaderFilters from '~/components/header-components/a-header-filters.vue'
 
 const SINGLE_CAT = gql`
   query SINGLE_CAT($UID: String, $ID: ID) {
     dealers(
-      filters: { sity: { id: { eq: $ID } }, categories: { UID: { eq: $UID } } }
+      filters: {
+        sity: { id: { eq: $ID } }
+        sub_categories: { URL: { eq: $UID } }
+      }
       sort: "VIP:desc"
-      pagination: { limit: 100}
+      pagination: { limit: 100 }
     ) {
       data {
         attributes {
@@ -62,10 +76,18 @@ const SINGLE_CAT = gql`
           VIP
           UID
           Phone
-          categories {
+          Logo {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+          sub_categories {
             data {
               attributes {
                 Name
+                URL
               }
             }
           }
@@ -83,6 +105,32 @@ const SINGLE_CAT = gql`
   }
 `
 
+const MESTO_FILTERS = gql`
+  query MESTO_FILTERS {
+    razmechenieMestos {
+      data {
+        attributes {
+          Name
+          Active
+        }
+      }
+    }
+  }
+`
+
+const ACCES_FILTERS = gql`
+  query ACCES_FILTERS {
+    accessories {
+      data {
+        attributes {
+          Name
+          Active
+        }
+      }
+    }
+  }
+`
+
 export default {
   apollo: {
     dealers: {
@@ -94,6 +142,14 @@ export default {
           UID: this.$route.params.cat
         }
       }
+    },
+    razmechenieMestos: {
+      query: MESTO_FILTERS,
+      prefetch: false
+    },
+    accessories: {
+      query: ACCES_FILTERS,
+      prefetch: false
     }
   },
   setup () {
@@ -103,18 +159,90 @@ export default {
   data () {
     return {
       ymapMob: false,
-      mapYandex: 0
+      mapYandex: 0,
+      filtersTo: [],
+      sortedDealers: []
     }
   },
-  components: { aYMap, ADealer },
+  components: { aYMap, ADealer, AHeaderFilters },
   name: 'IndexPage',
   layout: 'main',
-  methods: {},
-   watch: {
-    'sity.getSityId' () {
-      this.mapYandex += 1;  
+  methods: {
+    async FilterDealers (data) {
+      const searchInput = data
+      console.log('tut2  ' + searchInput)
+      try {
+        const res = await this.$apollo.query({
+          query: SINGLE_CAT,
+          variables: {
+            $ID: this.sity.getSityId,
+            $NAMEMAN: searchInput
+          }
+        })
+
+        if (res) {
+          this.loading = false
+          const { results } = res.data
+          this.testResults = results
+        }
+      } catch (err) {
+        this.loading = false
+        this.testResults = []
+      }
+    },
+    getFilterName (nameField) {
+      const ooo = []
+
+      if (this.sortedDealersApi !== undefined) {
+        this.sortedDealersApi.map(function (x) {
+          if (x.attributes) {
+            
+          }
+          ooo.push(x)
+          console.log('tut 33  ' + x)
+        })
+        
+      }
+      this.sortedDealers = ooo
+    },
+    getFilterMan (data) {
+      const doneTest = []
+      for (const value of data.values()) {
+        doneTest.push(value)
+      }
+
+      const joindealres = doneTest
+        .join('","')
+        .toString()
+        .replaceAll('\n', '')
+      this.FilterDealers(joindealres)
     }
   },
+  watch: {
+    'sity.getSityId' () {
+      this.mapYandex += 1
+    }
+  },
+  async asyncData ({ $axios, query }) {
+    const ID = query.id
+    const filtersList = await $axios.$get(
+      'http://admin.996661-cn43153.tmweb.ru:1337/api/sub-categories/' +
+        ID +
+        '?populate[ttt][populate]=*'
+    )
+
+    return { filtersList }
+  },
+  computed: {
+    sortedDealersApi () {
+      if (this.sortedDealers.length) {
+        return this.sortedDealers
+      } else {
+        return this.dealers.data
+      }
+    }
+  },
+  mounted () {}
 }
 </script>
 <style>
