@@ -42,7 +42,7 @@
               >
                 <input
                   type="checkbox"
-                  @click="getFilterName(filter[0])"
+                  @click="getFilterName(filter[0], item.attributes.Name)"
                   :value="item.attributes.Name"
                   v-model="filter_accessoriesCheck"
                 />
@@ -62,12 +62,12 @@
       >
         Прочие фильтры
       </nuxt-link> -->
-      <button
+      <!-- <button
         @click="getFilterMan(filter_accessoriesCheck)"
         class="bg-[#7854F7] text-white px-4 rounded-full text-xs py-2"
       >
         <span>Применить фильтры</span>
-      </button>
+      </button> -->
     </div>
   </div>
 </template>
@@ -111,8 +111,8 @@ export default {
     getFilterMan (data) {
       this.$emit('getFilterMan', data)
     },
-    getFilterName(nameFilter){
-      this.$emit('getFilterName', nameFilter)
+    getFilterName(nameFilter, val){
+      this.$emit('getFilterName', nameFilter, val)
     },
     checekedFilterID (i) {
       if (this.active == true && this.activeFilter == i) {

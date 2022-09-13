@@ -50,9 +50,7 @@
             v-for="(item, i) in sortSearch"
             :key="i"
             class=" border-b-[1px] py-3 px-4"
-            :class="[
-              item.attributes.VIP == true ? 'bg-[#FFDEB6]/30' : 'bg-white'
-            ]"
+            
           >
             <div class="grid grid-cols-7 gap-4 items-center">
               <h4
@@ -65,39 +63,22 @@
                 {{ item.attributes.CompanyName }}
               </h4>
               <div
-                class="flex gap-4 text-xs col-span-3"
+                class="flex gap-4 text-xs col-span-4"
                 v-if="item.attributes.categories.data.length"
               >
                 <span
                   v-for="(attr, i) in item.attributes.categories.data"
                   :key="i"
                   @click="routeSearchResult(null)"
-                  class="px-3 py-1 bg-[#FFDEB6] rounded-md hover:bg-[#fdd19b] cursor-pointer"
+                  class="px-4 py-2 bg-[#7854F7] rounded-full text-white  cursor-pointer"
                   >{{ attr.attributes.Name }}</span
                 >
               </div>
-              <div class="text-xs flex flex-col gap-2 col-span-2">
-                <span class="flex items-center gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-4 h-4"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                    />
-                  </svg>
-                  {{ item.attributes.Adress }}</span
+              <div class="text-xs flex flex-col gap-2  col-span-1 justify-end items-start">
+                <div class="flex flex-col gap-2">
+                  <a :href="`tel:${item.attributes.Phone}`" class="flex items-center gap-2">
+                  <img src="~/assets/img/icons/Phone_light.svg" alt="" class="w-4 h-4">
+                  {{ item.attributes.Phone }}</a
                 >
                 <span class="flex items-center gap-2">
                   <svg
@@ -117,6 +98,8 @@
                   {{ item.attributes.StartTimeWork }} до
                   {{ item.attributes.EndTimeWork }}</span
                 >
+                </div>
+               
               </div>
             </div>
           </div>
@@ -188,6 +171,7 @@ const SEARCH_HEADER = gql`
           StartTimeWork
           EndTimeWork
           VIP
+          Phone
           categories {
             data {
               attributes {

@@ -36,10 +36,10 @@
 }
 
 
-.nuxt-link-exact-active {
+/* .nuxt-link-exact-active {
   background: white;
   border: none
-}
+} */
 :focus { outline: none; }
 
 .page-enter-active,

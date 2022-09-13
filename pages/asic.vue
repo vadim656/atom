@@ -19,7 +19,14 @@
         class="border-[1px] rounded-xl bg-white anime min-h-[100px] max-h-[185px] hover:shadow-md flex flex-col p-4 justify-center items-center"
         :to="{ path: `/cat/` + item.attributes.URL, query: { id: item.id } }"
       >
-        <img src="" alt="" />
+        <img
+          v-if="item.attributes.Img.data !== null"
+          :src="
+            `http://admin.996661-cn43153.tmweb.ru:1337` +
+              item.attributes.Img.data.attributes.url
+          "
+          alt=""
+        /> 
         <h3 class="font-semibold text-sm">{{ item.attributes.Name }}</h3>
       </nuxt-link>
     </div>

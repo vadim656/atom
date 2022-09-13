@@ -7,8 +7,8 @@
           и настройка оборудования
         </h1>
         <div class="grid grid-cols-2 gap-6">
-          <div
-            class="flex flex-col gap-3 p-3 border-2 rounded-xl border-[#242424]/5"
+          <nuxt-link to="/asic"
+            class="flex flex-col gap-3 p-3 border-2 rounded-xl border-[#242424]/5 hover:bg-white anime hover:shadow-md"
           >
             <img
               src="~/assets/img/Rectangle4.jpg"
@@ -21,13 +21,11 @@
                 <h2 class="text-[#7854F7] text-5xl font-bold">ASIC</h2>
               </div>
 
-              <nuxt-link to="/asic" class="rounded-full overflow-hidden">
-                <img src="~/assets/img/icons/mainBTN.svg" alt="" />
-              </nuxt-link>
+
             </div>
-          </div>
-          <div
-            class="flex flex-col gap-3 p-3 border-2 rounded-xl border-[#242424]/5"
+          </nuxt-link>
+          <nuxt-link to="/gpu"
+            class="flex flex-col gap-3 p-3 border-2 rounded-xl border-[#242424]/5 hover:bg-white anime hover:shadow-md"
           >
             <img
               src="~/assets/img/Rectangle5.jpg"
@@ -40,11 +38,9 @@
                 <h2 class="text-[#7854F7] text-5xl font-bold">GPU</h2>
               </div>
 
-              <nuxt-link to="/gpu" class="rounded-full overflow-hidden">
-                <img src="~/assets/img/icons/mainBTN.svg" alt="" />
-              </nuxt-link>
+
             </div>
-          </div>
+          </nuxt-link>
         </div>
       </div>
       <div class="col-span-2 sm:col-span-1 flex relative ">
@@ -52,7 +48,7 @@
           <a-y-map
             v-if="dealers !== undefined"
             :ymap_data="dealers.data"
-            :key="mapYandex"
+            :key="this.sity.getSityId"
             class="rounded-[70px] overflow-hidden bg-[#FFFFFF]/25 p-3 border-[1px] border-[#242424]/5 shadow"
           />
         </div>
@@ -87,7 +83,7 @@ const SINGLE_CAT = gql`
     dealers(
       filters: { sity: { id: { eq: $ID } } }
       sort: "VIP:desc"
-      pagination: { limit: 12 }
+      pagination: { limit: 36 }
     ) {
       data {
         attributes {
@@ -152,7 +148,8 @@ export default {
   },
   watch: {
     'sity.getSityId' () {
-      this.mapYandex += 1
+      this.mapYandex = Math.floor(Math.random() * 22)
+      location.reload()
     }
   }
 }

@@ -15,6 +15,8 @@
       <span v-else>Категория пуста</span>
     </div>
     <div class="col-span-6 row-span-1">
+      <span v-if="dealers !== undefined">{{sortedDealersApi.length}} </span>
+      
       <a-header-filters
         :filter_accessories="accessories"
         :filtersList="filtersList"
@@ -28,16 +30,18 @@
         <a-y-map
           v-if="dealers !== undefined"
           :ymap_data="sortedDealersApi"
-          :key="mapYandex"
+          :key="this.sity.getSityId"
           class="rounded-[70px] overflow-hidden bg-[#FFFFFF]/25 p-3 border-[1px] border-[#242424]/5 shadow"
         />
       </div>
     </div>
+    
     <div
       class="col-span-6 row-span-2 grid grid-cols-3 gap-2   sm:h-[600px]"
       :class="[dealers.data.length <= 12 ? '' : 'sm:overflow-y-auto']"
       v-if="dealers !== undefined"
     >
+    
       <a-dealer
         v-for="dealer in sortedDealersApi"
         :key="dealer.id"
@@ -161,7 +165,13 @@ export default {
       ymapMob: false,
       mapYandex: 0,
       filtersTo: [],
-      sortedDealers: []
+      sortedDealers: [],
+      filters: {
+        s: '',
+        sort: ''
+      },
+      oopp: [],
+      demo: []
     }
   },
   components: { aYMap, ADealer, AHeaderFilters },
@@ -190,20 +200,22 @@ export default {
         this.testResults = []
       }
     },
-    getFilterName (nameField) {
-      const ooo = []
+    async getFilterName (nameField, val) {
+      const getParams = []
+      const yy = val
+      const route = this.$route.params.cat
+      getParams.push(`filters[${nameField}][Name][$in]=${yy}`)
 
-      if (this.sortedDealersApi !== undefined) {
-        this.sortedDealersApi.map(function (x) {
-          if (x.attributes) {
-            
-          }
-          ooo.push(x)
-          console.log('tut 33  ' + x)
-        })
-        
-      }
-      this.sortedDealers = ooo
+      console.log(nameField)
+      this.oopp = getParams
+      this.sortedDealers = this.dealers.data
+
+      // fetch
+
+      const res = await this.$axios.$get(
+        `http://admin.996661-cn43153.tmweb.ru:1337/api/dealers/?filters[sity][Name][$in]=Москва&filters[sub_categories][URL][$in]=${route}&${getParams}`
+      )
+      this.demo = res.data
     },
     getFilterMan (data) {
       const doneTest = []
@@ -220,7 +232,7 @@ export default {
   },
   watch: {
     'sity.getSityId' () {
-      this.mapYandex += 1
+      location.reload()
     }
   },
   async asyncData ({ $axios, query }) {
@@ -235,8 +247,8 @@ export default {
   },
   computed: {
     sortedDealersApi () {
-      if (this.sortedDealers.length) {
-        return this.sortedDealers
+      if (this.demo.length) {
+        return this.demo
       } else {
         return this.dealers.data
       }
