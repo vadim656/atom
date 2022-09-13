@@ -47,6 +47,13 @@ const CATEGORY_NAME = gql`
               attributes {
                 Name
                 URL
+                Img {
+                  data {
+                    attributes {
+                      url
+                    }
+                  }
+                }
               }
               id
             }
