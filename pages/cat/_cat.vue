@@ -37,7 +37,7 @@
     </div>
     
     <div
-      class="col-span-6 row-span-2 grid grid-cols-3 gap-2   sm:h-[600px]"
+      class="col-span-6 row-span-2 grid grid-cols-3 grid-rows-auto gap-2   sm:h-[600px]"
       :class="[dealers.data.length <= 12 ? '' : 'sm:overflow-y-auto']"
       v-if="dealers !== undefined"
     >

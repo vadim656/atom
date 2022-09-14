@@ -1,5 +1,5 @@
 <template>
-  <div class=" w-full flex flex-col gap-8 ">
+  <div class=" w-full flex flex-col gap-8 pb-4">
     <section class="flex justify-between gap-8 items-start">
       <div class="block w-2/12 uppercase font-bold text-3xl">О EXAMINE</div>
       <div class=" w-10/12 flex flex-col gap-4">

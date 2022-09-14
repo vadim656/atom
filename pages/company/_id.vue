@@ -1,6 +1,7 @@
 <template>
   <div class="grid grid-cols-2 gap-4">
     <div class="flex w-full  flex-col gap-10 col-span-1">
+        
       <a-dealer-info :dealer_info="dealer" class="" />
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 ">
         <a-dealer-services
