@@ -5,7 +5,7 @@
       <div class="flex gap-2 flex-wrap">
         <button
           @click="$router.back()"
-          class="bg-white px-4 rounded-full text-xs flex gap-2 justify-center items-center py-2"
+          class="bg-[#7854F7] text-white px-4 rounded-full text-xs flex gap-2 justify-center items-center py-2"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -104,18 +104,34 @@
               >
                 <input
                   type="checkbox"
-                  @click="getFilterName(filter[0], item.attributes.Name)"
+                  @click="
+                    getFilterName(filter[0], item.attributes.Name, $event)
+                  "
                   :value="item.attributes.Name"
+                  :id="filter[0]"
+                  :cheked="item.cheked"
                   v-model="filter_accessoriesCheck"
                 />
+
                 <label class="text-xs">{{ item.attributes.Name }}</label>
               </div>
+              <button
+                @click="resetFilters()"
+                class="bg-[#7854F7] mt-4 pb-2 text-white px-4 rounded-full text-xs flex  justify-center items-center py-2"
+              >
+                Сбросить фильтры
+              </button>
             </div>
           </div>
         </div>
 
         <!-- размешение + стоимость место -->
-        <div v-if="this.$route.params.cat == 'razmeshhenie'">
+        <div
+          v-if="
+            this.$route.params.cat == 'razmeshhenie' ||
+              this.$route.params.cat == 'razmeshhenie-asic'
+          "
+        >
           <div class="relative">
             <!-- v-if="filter.data.length " -->
             <button
@@ -170,14 +186,19 @@
 
         <!-- размешение + аренда ячейки -->
 
-        <div v-if="this.$route.params.cat == 'razmeshhenie'">
+        <div
+          v-if="
+            this.$route.params.cat == 'razmeshhenie' ||
+              this.$route.params.cat == 'arenda-pomeshheniya-pod-asic'
+          "
+        >
           <div class="relative">
             <!-- v-if="filter.data.length " -->
             <button
               @click="checekedFilterID(123)"
               class="flex items-center gap-1 bg-white rounded-full pl-4 pr-2 py-2 text-xs"
             >
-              <span class="">Аренда ячейки</span>
+              <span class="">Мощность (кВт)</span>
 
               <img
                 v-if="activeFilter !== 123"
@@ -197,7 +218,7 @@
               class="absolute top-9 left-0 w-full min-w-[300px] bg-white px-2 rounded-xl shadow z-[99] p-4"
             >
               <div class="flex flex-col gap-4">
-                <span class="text-xs text-[#212121]/70">Аренда ячейки </span>
+                <span class="text-xs text-[#212121]/70">Мощность (кВт) </span>
                 <div class="flex flex-col gap-4 w-full">
                   <input
                     type="range"
@@ -213,7 +234,7 @@
                       v-model="valueArenda"
                       class="px-4 py-2 border-[1px] border-[#212121]/50 rounded-md w-1/2"
                     />
-                    <span class="text-sm">До 100 000 ₽</span>
+                    <span class="text-sm">До 100 000</span>
                   </div>
                 </div>
               </div>
@@ -221,29 +242,12 @@
           </div>
         </div>
       </div>
-
-      <!-- static button -->
-
-      <!-- <nuxt-link
-        v-if="this.$route.params.cat !== 'sborka-fermy'"
-        to="/filter"
-        class="bg-white px-4 rounded-full text-xs flex justify-center items-center py-2"
-      >
-        Прочие фильтры
-      </nuxt-link> -->
-      <!-- <button
-        @click="getFilterMan(filter_accessoriesCheck)"
-        class="bg-[#7854F7] text-white px-4 rounded-full text-xs py-2"
-      >
-        <span>Применить фильтры</span>
-      </button> -->
     </div>
   </div>
 </template>
 
 <script>
 import aFilterSelect from '../filters/a-filter-select.vue'
-import gql from 'graphql-tag'
 import { useSity } from '@/store'
 
 export default {
@@ -268,8 +272,9 @@ export default {
       filter_accessoriesCheck: [],
       active: false,
       activeFilter: null,
-      valueTarif: 3,
-      valueArenda: 100
+      valueTarif: '3',
+      valueArenda: '100',
+      fullPathFilters: ''
     }
   },
   computed: {
@@ -281,11 +286,33 @@ export default {
     }
   },
   methods: {
+    resetFilters () {
+      this.filter_accessoriesCheck = []
+      this.fullPathFilters = ''
+      setTimeout(() => {
+        this.active = false
+      }, 500)
+    },
     getFilterMan (data) {
       this.$emit('getFilterMan', data)
     },
-    getFilterName (nameFilter, val) {
-      this.$emit('getFilterName', nameFilter, val)
+    getFilterName (nameFilter, val, event) {
+      if (event.target.checked) {
+        this.$emit('getFilterName')
+        this.fullPathFilters = this.fullPathFilters.concat([
+          '&filters[' + [nameFilter] + '][Name][$in]=' + val
+        ])
+
+        this.$router.replace({
+          path: this.$route.fullPath,
+          query: {
+            populate: '*' + this.fullPathFilters.toString()
+          }
+        })
+      } else {
+        delete this.$route.query.populate
+      }
+      console.log('295', this.fullPathFilters)
     },
     checekedFilterID (i) {
       if (this.active == true && this.activeFilter == i) {
@@ -299,9 +326,20 @@ export default {
   },
   watch: {
     filter_accessoriesCheck: function (data) {
+      if (this.filter_accessoriesCheck.length == 0) {
+        this.fullPathFilters = ''
+        this.$router.replace({
+          path: this.$route.fullPath,
+          query: {
+            populate: '*'
+          }
+        })
+        console.log('пусто')
+      }
       this.getFilterMan(data)
     }
-  }
+  },
+  mounted () {}
 }
 </script>
 

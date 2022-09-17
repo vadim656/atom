@@ -15,8 +15,8 @@
       <span v-else>Категория пуста</span>
     </div>
     <div class="col-span-6 row-span-1">
-      <span v-if="dealers !== undefined">{{sortedDealersApi.length}} </span>
-      
+      <span v-if="dealers !== undefined">{{ sortedDealersApi.length }} </span>
+
       <a-header-filters
         :filter_accessories="accessories"
         :filtersList="filtersList"
@@ -35,13 +35,12 @@
         />
       </div>
     </div>
-    
+
     <div
       class="col-span-6 row-span-2 grid grid-cols-3 grid-rows-auto gap-2   sm:h-[600px]"
       :class="[dealers.data.length <= 12 ? '' : 'sm:overflow-y-auto']"
       v-if="dealers !== undefined"
     >
-    
       <a-dealer
         v-for="dealer in sortedDealersApi"
         :key="dealer.id"
@@ -171,7 +170,7 @@ export default {
         sort: ''
       },
       oopp: [],
-      demo: []
+      demo: [],
     }
   },
   components: { aYMap, ADealer, AHeaderFilters },
@@ -181,6 +180,7 @@ export default {
     async FilterDealers (data) {
       const searchInput = data
       console.log('tut2  ' + searchInput)
+
       try {
         const res = await this.$apollo.query({
           query: SINGLE_CAT,
@@ -200,36 +200,47 @@ export default {
         this.testResults = []
       }
     },
-    async getFilterName (nameField, val) {
-      const getParams = []
-      const yy = val
+    async getFilterName () {
+      // const getParams = []
+      // const yy = val
       const route = this.$route.params.cat
-      getParams.push(`filters[${nameField}][Name][$in]=${yy}`)
+      // console.log('200' + nameField + ' 200 ' + val)
+      // if (nameField !== null && val !== null) {
+      //   getParams.push(`filters[${nameField}][Name][$in]=${yy}`)
+      // } else {
+      //   getParams = []
+      // }
 
-      console.log(nameField)
-      this.oopp = getParams
-      this.sortedDealers = this.dealers.data
+      // console.log('214  ' + nameField + ' 214 ' + val)
+      // this.oopp = getParams
+      // this.sortedDealers = this.dealers.data
 
       // fetch
 
       const res = await this.$axios.$get(
-        `http://admin.996661-cn43153.tmweb.ru:1337/api/dealers/?filters[sity][Name][$in]=Москва&filters[sub_categories][URL][$in]=${route}&${getParams}`
+        `http://admin.996661-cn43153.tmweb.ru:1337/api/dealers/?filters[sity][Name][$in]=Москва&filters[sub_categories][URL][$in]=${route}&` +  this.$route.query.populate
       )
       this.demo = res.data
     },
     getFilterMan (data) {
       const doneTest = []
-      for (const value of data.values()) {
-        doneTest.push(value)
+      if (data.length) {
+        for (const value of data.values()) {
+          doneTest.push(value)
+        }
+        const joindealres = doneTest
+          .join('","')
+          .toString()
+          .replaceAll('\n', '')
+        this.FilterDealers(joindealres)
+      } else {
+        const joindealres = '*'
+        this.FilterDealers(joindealres)
       }
-
-      const joindealres = doneTest
-        .join('","')
-        .toString()
-        .replaceAll('\n', '')
-      this.FilterDealers(joindealres)
-    }
+    },
   },
+  watchQuery: ['populate'],
+
   watch: {
     'sity.getSityId' () {
       location.reload()
@@ -240,7 +251,7 @@ export default {
     const filtersList = await $axios.$get(
       'http://admin.996661-cn43153.tmweb.ru:1337/api/sub-categories/' +
         ID +
-        '?populate[ttt][populate]=*'
+        '?populate[ttt][populate]=*' 
     )
 
     return { filtersList }
@@ -254,7 +265,10 @@ export default {
       }
     }
   },
-  mounted () {}
+  mounted () {
+    delete this.$route.query.populate
+    // this.$router.replace({'query': {'populate': null}});
+  }
 }
 </script>
 <style>

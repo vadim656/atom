@@ -128,7 +128,7 @@
     <div
       v-if="modal == true"
       @click="modal = false"
-      class="fixed w-screen h-screen top-0 left-0 right-0 z-[99] bg-[#212121]/70  backdrop-blur-sm flex justify-center items-center"
+      class="fixed w-screen h-screen top-0 left-0 right-0 z-[99999999999] bg-[#212121]/70  backdrop-blur-sm flex justify-center items-center"
     >
       <div
         @click="modal = true"
