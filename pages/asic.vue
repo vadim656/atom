@@ -12,11 +12,11 @@
       </div>
     </nuxt-link>
 
-    <div v-if="category !== undefined" class="grid grid-cols-5 gap-10">
+    <div v-if="category !== undefined" class="grid grid-cols-2 sm:grid-cols-5 gap-4 sm:gap-10">
       <nuxt-link
         v-for="(item, i) in category.data.attributes.sub_categories.data"
         :key="i"
-        class="border-[1px] rounded-xl bg-white anime min-h-[100px] max-h-[185px] hover:shadow-md flex flex-col p-4 justify-center items-center"
+        class="border-[1px] rounded-xl bg-white anime min-h-[100px]  hover:shadow-md flex flex-col gap-2 p-4 justify-center items-center"
         :to="{ path: `/cat/` + item.attributes.URL, query: { id: item.id } }"
       >
         <img
@@ -26,8 +26,9 @@
               item.attributes.Img.data.attributes.url
           "
           alt=""
+           class="w-auto h-[80px] sm:h-[130px] object-cover"
         /> 
-        <h3 class="font-semibold text-sm">{{ item.attributes.Name }}</h3>
+        <h3 class="font-semibold text-sm text-center">{{ item.attributes.Name }}</h3>
       </nuxt-link>
     </div>
   </div>

@@ -1,21 +1,23 @@
 <template>
-  <div class="grid grid-cols-12 grid-rows-[auto,auto-auto] gap-4 ">
+  <div
+    class="grid grid-cols-2 sm:grid-cols-12 grid-rows-[auto,auto-auto] gap-4 "
+  >
     <div
       @click="ymapMob = !ymapMob"
-      class="col-span-12 flex justify-center items-center sm:hidden px-4 py-4 font-semibold  rounded-md bg-neutral-200"
+      class="col-span-2 sm:col-span-12 flex justify-center items-center sm:hidden px-4 py-4 font-semibold  rounded-md bg-[#7854F7] text-white cursor-pointer"
     >
-      <span v-if="ymapMob == false">Показать на карте</span>
-      <span v-else>Скрыть карту</span>
+      <span v-if="ymapMob == false" class="">Показать на карте</span>
+      <span v-else class="\">Скрыть карту</span>
     </div>
-    <div v-if="ymapMob == true" class="w-full col-span-12">
+    <div v-if="ymapMob == true" class="w-full col-span-2 sm:col-span-12">
       <a-y-map
         v-if="dealers !== undefined && dealers.data.length"
         :ymap_data="dealers.data"
       />
       <span v-else>Категория пуста</span>
     </div>
-    <div class="col-span-6 row-span-1">
-      <span v-if="dealers !== undefined">{{ sortedDealersApi.length }} </span>
+    <div class="col-span-2 sm:col-span-6 row-span-1 flex flex-col gap-2">
+      <span v-if="dealers !== undefined" class="text-sm"> Найдено {{ sortedDealersApi.length }} компаний  </span>
 
       <a-header-filters
         :filter_accessories="accessories"
@@ -25,7 +27,7 @@
       />
     </div>
 
-    <div class="col-span-6 row-span-3 flex relative ">
+    <div class="col-span-2 sm:col-span-6 row-span-3 hidden sm:flex relative ">
       <div class="absolute top-0 w-full right-0 left-0  h-[600px]">
         <a-y-map
           v-if="dealers !== undefined"
@@ -37,7 +39,7 @@
     </div>
 
     <div
-      class="col-span-6 row-span-2 grid grid-cols-3 grid-rows-auto gap-2   sm:h-[600px]"
+      class="col-span-2 sm:col-span-6 row-span-2 grid grid-cols-2 sm:grid-cols-3 grid-rows-auto gap-2   sm:h-[600px]"
       :class="[dealers.data.length <= 12 ? '' : 'sm:overflow-y-auto']"
       v-if="dealers !== undefined"
     >
@@ -170,7 +172,7 @@ export default {
         sort: ''
       },
       oopp: [],
-      demo: [],
+      demo: []
     }
   },
   components: { aYMap, ADealer, AHeaderFilters },
@@ -218,7 +220,8 @@ export default {
       // fetch
 
       const res = await this.$axios.$get(
-        `http://admin.996661-cn43153.tmweb.ru:1337/api/dealers/?filters[sity][Name][$in]=Москва&filters[sub_categories][URL][$in]=${route}&` +  this.$route.query.populate
+        `http://admin.996661-cn43153.tmweb.ru:1337/api/dealers/?filters[sity][Name][$in]=Москва&filters[sub_categories][URL][$in]=${route}&` +
+          this.$route.query.populate
       )
       this.demo = res.data
     },
@@ -237,7 +240,7 @@ export default {
         const joindealres = '*'
         this.FilterDealers(joindealres)
       }
-    },
+    }
   },
   watchQuery: ['populate'],
 
@@ -251,7 +254,7 @@ export default {
     const filtersList = await $axios.$get(
       'http://admin.996661-cn43153.tmweb.ru:1337/api/sub-categories/' +
         ID +
-        '?populate[ttt][populate]=*' 
+        '?populate[ttt][populate]=*'
     )
 
     return { filtersList }

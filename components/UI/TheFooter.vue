@@ -1,9 +1,9 @@
 <template>
   <div class=" w-full flex flex-col gap-8 pb-4">
-    <section class="flex justify-between gap-8 items-start">
-      <div class="block w-2/12 uppercase font-bold text-3xl">О EXAMINE</div>
-      <div class=" w-10/12 flex flex-col gap-4">
-        <span
+    <section class="flex flex-col sm:flex-row justify-between gap-8 items-start">
+      <div class="block sm:w-2/12 uppercase font-bold text-3xl">О EXAMINE</div>
+      <div class=" sm:w-10/12 flex flex-col gap-4">
+        <span class="text-xs sm:text-base"
           ><b>EXAMINE</b> - это агрегатор Российских компаний, занимающихся
           продажей, ремонтом, размещением и настройкой оборудования в сфере
           майнинга. Предоставляем простой и удобный инструмент, который позволит
@@ -18,9 +18,9 @@
         </nuxt-link>
       </div>
     </section>
-    <section class="flex justify-between items=center">
-      <div class="flex flex-col gap-4">
-        <img src="~/assets/img/icons/Logo.svg" alt="" />
+    <section class="flex flex-col sm:flex-row justify-between items-center text-xs sm:text-base">
+      <div class="flex flex-col gap-4 items-center sm:items-start">
+        <img src="~/assets/img/icons/Logo.svg" alt="" class="max-w-[200px]"/>
         <div>2022 Все права защищены . ООО “EXAMINE”</div>
       </div>
       <span class="flex h-full items-center">По вопросам рекламы и партнерства обращаться по<br> электронной почте: info.examine@gmail.com</span>

@@ -1,19 +1,19 @@
 <template>
   <div
-    class="container grid grid-cols-12 gap-12 grid-rows-[auto] relative px-4 sm:px-0"
+    class="container grid sm:grid-cols-12 gap-4 sm:gap-12 grid-rows-[auto] relative px-4 sm:px-0 "
   >
     <!-- <the-sidebar class="col-span-2 row-span-6 border-2 bg-neutral-200  " /> -->
     <the-header
-      class="col-span-12    pt-4 "
+      class="sm:col-span-12   pt-4 "
       :sities="sities"
       :filter_mesto="razmechenieMestos"
       :filter_accessories="accessories"
     />
 
-    <div class="col-span-12 relative">
+    <div class="sm:col-span-12 relative">
       <Nuxt />
     </div>
-    <the-footer class="col-span-12"/>
+    <the-footer class="sm:col-span-12"/>
   </div>
 </template>
 

@@ -61,6 +61,12 @@
 
 }
 
+[class*="-map-bg"] {
+  border-radius: 12px ;
+  overflow: hidden;
+
+}
+
 [class*="-balloon_layout_normal"] {
   border-radius: 12px ;
   overflow: hidden;

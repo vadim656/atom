@@ -3,7 +3,7 @@
     <div
       class="flex flex-col sm:flex-row gap-2 sm:gap-0 items-start justify-between"
     >
-      <div class="flex items-center gap-4">
+      <div class="flex flex-col sm:flex-row items-center gap-4">
         <img v-if="dealer_info.attributes.Logo.data  !== null" :src="`http://admin.996661-cn43153.tmweb.ru:1337` +  dealer_info.attributes.Logo.data.attributes.url" alt="" />
         <h1 class="font-bold text-4xl">
           {{ dealer_info.attributes.CompanyName }}
@@ -17,7 +17,7 @@
         <div class="font-bold py-4">О {{ dealer_info.attributes.CompanyName }} </div>
         <div v-for="(item, i) in dealer_info.attributes.MoreInfo" :key="i">
           <div
-            class="w-full flex justify-between border-b-2 border-[#EEF5FF] py-4"
+            class="w-full flex justify-between border-b-2 border-[#EEF5FF] py-4 text-xs sm:text-base"
           >
             <span class="text-[#94A2B3]">{{ item.LeftText }}</span>
             <span class="font-bold text-[#272D4E]">{{ item.RightText }}</span>

@@ -1,19 +1,19 @@
 <template>
-  <div class="flex flex-col gap-8">
-    <div class="grid grid-cols-2 gap-4 w-full">
+  <div class="flex flex-col gap-4 sm:gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
       <div class="col-span-2 sm:col-span-1 flex flex-col justify-center gap-8">
-        <h1 class="text-5xl font-bold">
+        <h1 class="text-xl sm:text-5xl font-bold">
           Продажа, ремонт, размещение <br />
           и настройка оборудования
         </h1>
-        <div class="grid grid-cols-2 gap-6">
+        <div class="grid grid-cols-2 gap-2 sm:gap-6">
           <nuxt-link to="/asic"
-            class="flex flex-col gap-3 p-3 border-2 rounded-xl border-[#242424]/5 hover:bg-white anime hover:shadow-md"
+            class="flex flex-col gap-3 p-1 sm:p-3 border-2 rounded-xl border-[#242424]/5 hover:bg-white anime hover:shadow-md"
           >
             <img
               src="~/assets/img/Rectangle4.jpg"
               alt=""
-              class="rounded-xl overflow-hidden"
+              class="rounded-xl overflow-hidden "
             />
             <div class="flex items-center justify-between ">
               <div class="flex flex-col gap-3 items-start">
@@ -25,12 +25,12 @@
             </div>
           </nuxt-link>
           <nuxt-link to="/gpu"
-            class="flex flex-col gap-3 p-3 border-2 rounded-xl border-[#242424]/5 hover:bg-white anime hover:shadow-md"
+            class="flex flex-col gap-3 p-1 sm:p-3 border-2 rounded-xl border-[#242424]/5 hover:bg-white anime hover:shadow-md"
           >
             <img
               src="~/assets/img/Rectangle5.jpg"
               alt=""
-              class="rounded-xl overflow-hidden"
+              class="rounded-xl overflow-hidden "
             />
             <div class="flex items-center justify-between ">
               <div class="flex flex-col gap-3 items-start">
@@ -44,19 +44,19 @@
         </div>
       </div>
       <div class="col-span-2 sm:col-span-1 flex relative ">
-        <div class=" top-0 w-full right-0 left-0  h-[648px]">
+        <div class=" top-0 w-full right-0 left-0  sm:h-[648px]">
           <a-y-map
             v-if="dealers !== undefined"
             :ymap_data="dealers.data"
             :key="this.sity.getSityId"
-            class="rounded-[70px] overflow-hidden bg-[#FFFFFF]/25 p-3 border-[1px] border-[#242424]/5 shadow"
+            class="rounded-xl overflow-hidden bg-[#FFFFFF]/50 p-3 border-[1px] border-[#242424]/5 shadow"
           />
         </div>
       </div>
     </div>
     <div>
       <div
-        class="grid grid-cols-6  gap-2  sm:overflow-y-auto"
+        class="grid grid-cols-2 sm:grid-cols-6  gap-2  sm:overflow-y-auto"
         v-if="dealers !== undefined"
       >
         <a-dealer
@@ -64,7 +64,14 @@
           :key="dealer.id"
           :dealer_data="dealer.attributes"
           :company_url="dealer.id"
-          class="max-h-[130px]"
+          class="max-h-[130px] hidden sm:block"
+        />
+        <a-dealer
+          v-for="dealer in dealers.data.slice(0, 6)"
+          :key="dealer.id"
+          :dealer_data="dealer.attributes"
+          :company_url="dealer.id"
+          class="max-h-[130px] sm:hidden block"
         />
       </div>
     </div>

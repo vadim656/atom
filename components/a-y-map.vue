@@ -1,7 +1,7 @@
 <template>
   <yandex-map
     :coords="coords"
-    class="h-[650px]  rounded-[70px] overflow-hidden"
+    class="h-[350px] sm:h-[650px]  rounded-xl overflow-hidden"
     zoom="10"
     @click="onClick"
     v-if="mapDone == true"

@@ -1,16 +1,160 @@
 <template>
-  <div class="w-full justify-between grid grid-cols-6  gap-4 items-center">
-    <div class="flex gap-4 items-center justify-between col-span-6 ">
-      <div class="flex items-center gap-4">
+  <div
+    class="w-full justify-between grid grid-cols-1 sm:grid-cols-6  gap-4 items-center  "
+  >
+    <div class="flex gap-4 items-center justify-between sm:col-span-6 ">
+      <div
+        class="flex w-full items-center justify-between sm:justify-around gap-4 relative"
+      >
         <nuxt-link class="font-bold text-2xl" to="/"
           ><img src="../../assets/img/icons/Logo.svg" alt=""
         /></nuxt-link>
-        <span class="text-sm"
+        <button class="flex sm:hidden justify-center items-center">
+          <img
+            @click="searchResultsViewM = !searchResultsViewM"
+            v-if="searchResultsViewM == false"
+            src="~/assets/img/icons/mob-menu-false.png"
+            alt=""
+          />
+          <img
+            @click="searchResultsViewM = !searchResultsViewM"
+            v-else-if="searchResultsViewM == true"
+            src="~/assets/img/icons/mob-menu-true.png"
+            alt=""
+          />
+        </button>
+        <!-- mobile menu open -->
+        <div
+          v-show="searchResultsViewM == true"
+          class="fixed top-16 left-0 flex w-full h-full max-h-[160px] justify-center items-start  z-[4] shadow-xl"
+        >
+          <div
+            @click="searchResultsViewM = !searchResultsViewM"
+            class="w-full h-full absolute z-[5] bg-neutral-200/20 backdrop-blur-md"
+          ></div>
+          <div
+            class="absolute z-[99] w-full container flex flex-col gap-8 justify-center items-center"
+          >
+            <div class=" flex items-center relative mt-4">
+              <input
+                @input="searchHeaderM($event.target.value)"
+                v-bind:value="searchInput"
+                type="text"
+                id="search"
+                placeholder="Поиск"
+                class="shadow    block w-full pr-12 pl-8 py-2 sm:text-sm  rounded-full z-[100]"
+              />
+              <div class="absolute inset-y-0 left-2 flex py-1.5 pr-1.5 z-[101]">
+                <kbd class="inline-flex items-center text-sm text-[#BCBCBC]">
+                  <img
+                    src="~/assets/img/icons/A-Icon-Search.svg"
+                    alt=""
+                    class="w-5 h-5 "
+                  />
+                </kbd>
+              </div>
+            </div>
+
+            <!-- выдача поиска -->
+            <div
+              class="fixed z-[9] w-screen h-full backdrop-grayscale top-20 left-0 mobile"
+              @click="searchResultsM = false"
+              v-if="searchResultsViewM == true"
+            ></div>
+            <div
+              class="absolute z-[99] mt-4 top-10 left-0 bg-white  rounded-md shadow-md w-full flex flex-col gap-8  overflow-hidden"
+              v-if="
+                searchInput.length >= 3 &&
+                  searchResultsM.data !== undefined &&
+                  searchResultsViewM == true
+              "
+            >
+              <div class="flex flex-col" v-if="searchResultsM.data.length >= 1">
+                <div
+                  v-for="(item, i) in sortSearchM"
+                  :key="i"
+                  class=" border-b-[1px] py-3 px-4"
+                >
+                  <div class="flex justify-between gap-4 items-center">
+                    <h4
+                      @click="routeSearchResultM(item.id)"
+                      class="font-semibold col-span-2 cursor-pointer"
+                      :class="[
+                        item.attributes.VIP == true ? 'text-md' : 'text-normal'
+                      ]"
+                    >
+                      {{ item.attributes.CompanyName }}
+                    </h4>
+
+                    <div
+                      class="text-xs flex flex-col gap-2  col-span-1 justify-end items-start"
+                    >
+                      <div class="flex flex-col gap-2">
+                        <a
+                          :href="`tel:${item.attributes.Phone}`"
+                          class="flex items-center gap-2"
+                        >
+                          <img
+                            src="~/assets/img/icons/Phone_light.svg"
+                            alt=""
+                            class="w-4 h-4"
+                          />
+                          {{ item.attributes.Phone }}</a
+                        >
+                        <span class="flex items-center gap-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-4 h-4"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          {{ item.attributes.StartTimeWork }} до
+                          {{ item.attributes.EndTimeWork }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div v-else class="py-3 flex  justify-center items-center">
+                Ничего не найдено
+              </div>
+            </div>
+            <!-- город mobile -->
+            <div class="flex gap-4 items-center z-[98]">
+              <div
+                @click="modal = true"
+                class="cursor-pointer flex bg-[#7854F7] rounded-full px-6 py-3 gap-1 justify-center items-center"
+              >
+                <img src="~/assets/img/icons/sity-ico.svg" alt="" />
+                <span
+                  class="text-white"
+                  >{{ sity.sity }}</span
+                >
+              </div>
+              <div class="flex items-center gap-2">
+                <img src="~/assets/img/icons/vk.svg" class="" alt="" />
+                <img src="~/assets/img/icons/telegram.svg" class="" alt="" />
+              </div>
+            </div>
+            <!-- город mobile -->
+          </div>
+        </div>
+        <!-- mobile menu open -->
+        <span class="text-sm hidden sm:block"
           >Сайт-каталог занимающихся продажей, ремонтом,<br />
           размещением и настройкой оборудования.</span
         >
       </div>
-      <div class=" flex items-center relative">
+      <div class=" hidden sm:flex items-center relative ">
         <input
           @input="searchHeader($event.target.value)"
           v-bind:value="searchInput"
@@ -50,7 +194,6 @@
             v-for="(item, i) in sortSearch"
             :key="i"
             class=" border-b-[1px] py-3 px-4"
-            
           >
             <div class="grid grid-cols-7 gap-4 items-center">
               <h4
@@ -70,36 +213,44 @@
                   v-for="(attr, i) in item.attributes.categories.data"
                   :key="i"
                   @click="routeSearchResult(null)"
-                  class="px-4 py-2 bg-[#7854F7] rounded-full text-white  cursor-pointer"
+                  class=" px-4 py-2 bg-[#7854F7] rounded-full text-white  cursor-pointer"
                   >{{ attr.attributes.Name }}</span
                 >
               </div>
-              <div class="text-xs flex flex-col gap-2  col-span-1 justify-end items-start">
+              <div
+                class="text-xs flex flex-col gap-2  col-span-1 justify-end items-start"
+              >
                 <div class="flex flex-col gap-2">
-                  <a :href="`tel:${item.attributes.Phone}`" class="flex items-center gap-2">
-                  <img src="~/assets/img/icons/Phone_light.svg" alt="" class="w-4 h-4">
-                  {{ item.attributes.Phone }}</a
-                >
-                <span class="flex items-center gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-4 h-4"
+                  <a
+                    :href="`tel:${item.attributes.Phone}`"
+                    class="flex items-center gap-2"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                    <img
+                      src="~/assets/img/icons/Phone_light.svg"
+                      alt=""
+                      class="w-4 h-4"
                     />
-                  </svg>
-                  {{ item.attributes.StartTimeWork }} до
-                  {{ item.attributes.EndTimeWork }}</span
-                >
+                    {{ item.attributes.Phone }}</a
+                  >
+                  <span class="flex items-center gap-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-4 h-4"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    {{ item.attributes.StartTimeWork }} до
+                    {{ item.attributes.EndTimeWork }}</span
+                  >
                 </div>
-               
               </div>
             </div>
           </div>
@@ -108,7 +259,7 @@
           Ничего не найдено
         </div>
       </div>
-      <div class="flex gap-4 items-center">
+      <div class="hidden sm:flex gap-4 items-center">
         <div
           @click="modal = true"
           class="cursor-pointer flex bg-[#7854F7] rounded-full px-4 py-2 gap-1 items-center"
@@ -135,7 +286,6 @@
         class=" absolute   bg-white p-4 rounded-md flex justify-center items-center z-[999]"
       >
         <div class="flex">
-
           <div class="flex flex-col items-start ">
             <div
               v-for="(item, i) in sities.data"
@@ -221,6 +371,8 @@ export default {
       loading: true,
       searchResults: [],
       searchResultsView: false,
+      searchResultsM: [],
+      searchResultsViewM: false,
       active: false
     }
   },
@@ -253,6 +405,30 @@ export default {
         this.searchResults = []
       }
     },
+    async searchHeaderM (value) {
+      this.searchInput = value
+      const lowerCase = value.toLowerCase()
+
+      try {
+        const res = await this.$apollo.query({
+          query: SEARCH_HEADER,
+          variables: {
+            TAGS: lowerCase,
+            SITY: this.sity.getSityName
+          }
+        })
+
+        if (res) {
+          this.loading = false
+          const { dealers } = res.data
+          this.searchResultsM = dealers
+          this.searchResultsViewM = true
+        }
+      } catch (err) {
+        this.loading = false
+        this.searchResultsM = []
+      }
+    },
     routeSearchResult (id) {
       if (id !== null) {
         this.$router.push({
@@ -261,11 +437,23 @@ export default {
       }
 
       this.searchResultsView = false
+    },
+    routeSearchResultM (id) {
+      if (id !== null) {
+        this.$router.push({
+          path: '/company/' + id
+        })
+      }
+
+      this.searchResultsViewM = false
     }
   },
   computed: {
     sortSearch () {
       return this.searchResults.data.sort(x => (x.attributes.VIP ? -1 : 1))
+    },
+    sortSearchM () {
+      return this.searchResultsM.data.sort(x => (x.attributes.VIP ? -1 : 1))
     }
   },
   watch: {

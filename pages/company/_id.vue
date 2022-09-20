@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-2 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <div class="flex w-full  flex-col gap-10 col-span-1">
         
       <a-dealer-info :dealer_info="dealer" class="" />
@@ -51,7 +51,7 @@
     <a-ymap-dealer
       :ymap_data="dealer.attributes"
       :titleCompany="dealer.attributes.CompanyName"
-      class="col-span-1 rounded-[70px] overflow-hidden bg-[#FFFFFF]/25 p-3 border-[1px] border-[#242424]/5 shadow"
+      class="sm:col-span-1 rounded-md overflow-hidden bg-[#FFFFFF]/25 p-3 border-[1px] border-[#242424]/5 shadow"
     />
   </div>
 </template>

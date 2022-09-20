@@ -2,7 +2,7 @@
   <div>
     <yandex-map
       :coords="coords"
-      class="h-[900px] rounded-[70px] overflow-hidden"
+      class="h-[400px] sm:h-[900px] rounded-md overflow-hidden"
       zoom="14"
       v-if="mapDone == true"
     >
