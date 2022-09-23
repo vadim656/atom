@@ -16,10 +16,18 @@
   font-weight: bold;      
  }
 
+ @font-face {
+  font-family: "Gilroy";
+  src: url("@/assets/fonts/ba1c28dd78915812bde1448d1c451658/fonts/gilroy-medium.woff2") format("woff2"),
+        url("@/assets/fonts/ba1c28dd78915812bde1448d1c451658/fonts/gilroy-medium.woff") format("woff");
+  font-weight: medium;      
+ }
+
 
 @layer base {
     html, body {
         font-family: 'Gilroy', sans-serif !important;
+        font-weight: normal; 
         line-height: normal;
         color: #343434;
         letter-spacing: 0.03em;

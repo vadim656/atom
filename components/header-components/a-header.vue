@@ -4,7 +4,7 @@
   >
     <div class="flex gap-4 items-center justify-between sm:col-span-6 ">
       <div
-        class="flex w-full items-center justify-between sm:justify-around gap-4 relative"
+        class="flex w-full sm:w-2/5  items-center justify-between sm:justify-start gap-4  sm:gap-8 relative"
       >
         <nuxt-link class="font-bold text-2xl" to="/"
           ><img src="../../assets/img/icons/Logo.svg" alt=""

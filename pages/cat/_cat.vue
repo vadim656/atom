@@ -17,7 +17,9 @@
       <span v-else>Категория пуста</span>
     </div>
     <div class="col-span-2 sm:col-span-6 row-span-1 flex flex-col gap-2">
-      <span v-if="dealers !== undefined" class="text-sm"> Найдено {{ sortedDealersApi.length }} компаний  </span>
+      <span v-if="dealers !== undefined" class="text-sm">
+        Найдено {{ sortedDealersApi.length }} компаний
+      </span>
 
       <a-header-filters
         :filter_accessories="accessories"
@@ -48,7 +50,7 @@
         :key="dealer.id"
         :dealer_data="dealer.attributes"
         :company_url="dealer.id"
-        class="max-h-[130px]"
+        class=""
       />
     </div>
   </div>
@@ -81,6 +83,13 @@ const SINGLE_CAT = gql`
           VIP
           UID
           Phone
+          reviews {
+            data {
+              attributes {
+                Points
+              }
+            }
+          }
           Logo {
             data {
               attributes {
@@ -203,21 +212,7 @@ export default {
       }
     },
     async getFilterName () {
-      // const getParams = []
-      // const yy = val
       const route = this.$route.params.cat
-      // console.log('200' + nameField + ' 200 ' + val)
-      // if (nameField !== null && val !== null) {
-      //   getParams.push(`filters[${nameField}][Name][$in]=${yy}`)
-      // } else {
-      //   getParams = []
-      // }
-
-      // console.log('214  ' + nameField + ' 214 ' + val)
-      // this.oopp = getParams
-      // this.sortedDealers = this.dealers.data
-
-      // fetch
 
       const res = await this.$axios.$get(
         `http://admin.996661-cn43153.tmweb.ru:1337/api/dealers/?filters[sity][Name][$in]=Москва&filters[sub_categories][URL][$in]=${route}&` +
@@ -270,14 +265,7 @@ export default {
   },
   mounted () {
     delete this.$route.query.populate
-    // this.$router.replace({'query': {'populate': null}});
   }
 }
 </script>
-<style>
-/* .ymap-container{
-  position: absolute;
-  top: 0;
-  right: 0;
-} */
-</style>
+<style></style>

@@ -64,14 +64,14 @@
           :key="dealer.id"
           :dealer_data="dealer.attributes"
           :company_url="dealer.id"
-          class="max-h-[130px] hidden sm:block"
+          class=" hidden sm:flex"
         />
         <a-dealer
           v-for="dealer in dealers.data.slice(0, 6)"
           :key="dealer.id"
           :dealer_data="dealer.attributes"
           :company_url="dealer.id"
-          class="max-h-[130px] sm:hidden block"
+          class=" sm:hidden flex"
         />
       </div>
     </div>
@@ -102,6 +102,13 @@ const SINGLE_CAT = gql`
           VIP
           UID
           Phone
+          reviews {
+            data {
+              attributes {
+                Points
+              }
+            }
+          }
           Logo {
             data {
               attributes {
